@@ -5,7 +5,7 @@ describe('WebAudioToolkit', function() {
     var toolkit;
 
     before(function() {
-        toolkit = new WebAudioToolkit();
+      //
     });
 
     after(function() {
@@ -13,7 +13,14 @@ describe('WebAudioToolkit', function() {
     });
 
     it('exists', function() {
-        expect(toolkit).to.not.be.undefined;
+      toolkit = new WebAudioToolkit();
+      expect(toolkit).to.not.be.undefined;
     });
+
+    it('initializes successfully', function() {
+      toolkit = new WebAudioToolkit();
+      toolkit.initialize();
+      expect(toolkit.audioContext).to.not.be.undefined;
+    });    
 
 });

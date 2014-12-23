@@ -66,5 +66,5 @@ gulp.task('default',
 );
 // build task
 gulp.task('build',
-  ['lint', 'minify-js','minify-css', 'build-src', 'build-min','copy-bower-components']
+  ['minify-js','minify-css', 'build-src', 'build-min','copy-bower-components']
 );

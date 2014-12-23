@@ -12,15 +12,34 @@
 
     var 
       toolkit = {
-        initializeNodeSpace: initializeNodeSpace
+        initialized: false,
+        initialize: initialize
       };
 
 
     return toolkit;
 
-    // Identify div for 
-    function initializeNodeSpace(element) {
-      toolkit.nodeSpace = element;
+
+    function initialize(config) {
+      try{
+        toolkit.audioContext = createAudioContext();
+      }
+      catch(e){
+        alert(e.name + "\n" + e.message);
+      }       
+    }
+
+    function createAudioContext() {
+      var ctx = null;
+
+      if (typeof AudioContext !== 'undefined') {
+        ctx = new AudioContext();
+      } else if (typeof webkitAudioContext !== 'undefined') {
+        ctx = new webkitAudioContext();
+      } else {
+        throw new Error("This browser does not support the Web Audio API");
+      }
+      return ctx;
     }
 
     function addNode() {
