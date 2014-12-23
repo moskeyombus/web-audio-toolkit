@@ -12,15 +12,24 @@ describe('WebAudioToolkit', function() {
         //jQuery('#fixture').remove();
     });
 
-    it('exists', function() {
+    it('initializes successfully - no params', function() {
       toolkit = new WebAudioToolkit();
       expect(toolkit).to.not.be.undefined;
-    });
-
-    it('initializes successfully', function() {
-      toolkit = new WebAudioToolkit();
-      toolkit.initialize();
       expect(toolkit.audioContext).to.not.be.undefined;
+      expect(toolkit.initialized).to.be.true;
+      expect(toolkit.nodeSpaceEnabled).to.be.false;
     });    
+
+    it('initializes successfully - params', function() {
+      toolkit = new WebAudioToolkit({
+        nodeSpaceDiv: 'node-space'
+      });
+      expect(toolkit).to.not.be.undefined;
+      expect(toolkit.audioContext).to.not.be.undefined;
+      expect(toolkit.initialized).to.be.true;
+      expect(toolkit.nodeSpaceEnabled).to.be.true;
+      expect(toolkit.nodeSpaceDiv).to.equal('node-space');
+      
+    });   
 
 });

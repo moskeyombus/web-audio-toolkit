@@ -13,20 +13,31 @@
     var 
       toolkit = {
         initialized: false,
-        initialize: initialize
+        nodeSpaceEnabled: false,
+        nodeSpaceDiv: null,
+        audioContext: null,
+        initialize: initialize,
+        addNodeSpaceDiv: addNodeSpaceDiv
       };
 
+    toolkit.initialize(config);
 
     return toolkit;
 
 
-    function initialize(config) {
-      try{
-        toolkit.audioContext = createAudioContext();
-      }
-      catch(e){
-        alert(e.name + "\n" + e.message);
-      }       
+    function initialize(opts) {
+      if(!toolkit.initialized) {
+        try{
+          toolkit.audioContext = createAudioContext();
+          if(opts && opts.nodeSpaceDiv) {
+            toolkit.addNodeSpaceDiv(opts.nodeSpaceDiv);
+          }
+          toolkit.initialized = true;
+        }
+        catch(e){
+          alert(e.name + "\n" + e.message);
+        }
+      }   
     }
 
     function createAudioContext() {
@@ -40,6 +51,19 @@
         throw new Error("This browser does not support the Web Audio API");
       }
       return ctx;
+    }
+
+    function addNodeSpaceDiv(element) {
+      var nodeSpace;
+      try{
+        nodeSpace = document.getElementById(element);
+
+        toolkit.nodeSpaceDiv = element;
+        toolkit.nodeSpaceEnabled = true;
+      }
+      catch(e){
+        alert(e.name + "\n" + e.message);
+      } 
     }
 
     function addNode() {
