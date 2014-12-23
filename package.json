@@ -26,6 +26,7 @@
     "gulp-concat": "^2.4.2",
     "gulp-rename": "^1.2.0",
     "karma": "^0.12.28",
-    "karma-mocha": "^0.1.10"
+    "karma-mocha": "^0.1.10",
+    "karma-chai": "^0.1.0"
   }
 }
