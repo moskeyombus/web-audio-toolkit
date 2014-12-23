@@ -1,0 +1,8 @@
+{
+  "name": "web-audio-toolkit",
+  "version": "0.0.0",
+  "dependencies": {
+    "jsplumb": "~1.7.2",
+    "interact": "~1.1.3"
+  }
+}
