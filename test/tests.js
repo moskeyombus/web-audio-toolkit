@@ -32,4 +32,15 @@ describe('WebAudioToolkit', function() {
       
     });   
 
+    it('creates resizeable nodespace', function() {
+      var 
+        toolkit = new WebAudioToolkit(),
+        element = 'node-space',
+        nodeSpace;
+
+      toolkit.addNodeSpaceDiv(element);
+      nodeSpace = document.getElementById(element);
+
+    });
+
 });

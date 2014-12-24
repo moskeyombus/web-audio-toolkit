@@ -61,7 +61,7 @@
           .resizable(true)
           .on('resizemove', function(event) {
             var target = event.target;
-
+            debugger
             // add the change in coords to the previous width of the target element
             var
               newWidth  = parseFloat(target.offsetWidth) + event.dx,
