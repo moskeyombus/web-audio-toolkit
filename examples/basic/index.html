@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../../dist/css/style.css">
   </head>
   <body>
+    <h1>Web Audio Toolkit Example</h1>
     <div id="node-space"></div>
     <script src="../../dist/web-audio-toolkit.js"></script>
     <script>
     (function() {
-      var toolkit = new WebAudioToolkit();
-      toolkit.initializeNodeSpace('#node-space');
+      var toolkit = new WebAudioToolkit({
+        nodeSpaceDiv: 'node-space'
+      });
     })();
     </script>
   </body>

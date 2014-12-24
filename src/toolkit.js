@@ -57,7 +57,20 @@
       var nodeSpace;
       try{
         nodeSpace = document.getElementById(element);
+        interact('#' + element)
+          .resizable(true)
+          .on('resizemove', function(event) {
+            var target = event.target;
 
+            // add the change in coords to the previous width of the target element
+            var
+              newWidth  = parseFloat(target.offsetWidth) + event.dx,
+              newHeight = parseFloat(target.offsetHeight) + event.dy;
+
+            // update the element's style
+            target.setAttribute('style','width:' + newWidth + 'px; height: '+ newHeight + 'px');
+            //target.setAttribute('style','height:' + newHeight + 'px');
+          });
         toolkit.nodeSpaceDiv = element;
         toolkit.nodeSpaceEnabled = true;
       }
