@@ -3,7 +3,7 @@
 * Web Audio Toolkit - toolkit.js
 * ========
 */
-(function(window, interact, jsPlumb, webAudioToolkit) {
+(function(window, interact, jsPlumb, Handlebars, webAudioToolkit) {
   'use strict';
 
   window.WebAudioToolkit = WebAudioToolkit;
@@ -28,7 +28,6 @@
 
 
     function initialize(opts) {
-
       if(!toolkit.initialized) {
         try{
           toolkit.utils.setDebug(opts.debug || false);
@@ -83,6 +82,10 @@
       } 
     }
 
+    function addNodeMenu() {
+
+    }
+
     function addNode() {
       if(toolkit.nodeSpace) {
 
@@ -94,4 +97,4 @@
 
   }
 
-})(window, interact, jsPlumb, webAudioToolkit);
+})(window, interact, jsPlumb, Handlebars, webAudioToolkit);

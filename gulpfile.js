@@ -7,7 +7,10 @@ var
   clean = require('gulp-clean'),
   bowerSrc = require('gulp-bower-src'),
   concat = require('gulp-concat'),
-  rename = require('gulp-rename');
+  rename = require('gulp-rename'),
+  wrap = require('gulp-wrap'),
+  declare = require('gulp-declare'),  
+  handlebars = require('gulp-handlebars');  
 
 // tasks
 gulp.task('lint', function() {
@@ -35,11 +38,24 @@ gulp.task('minify-js', function() {
     }))
     .pipe(gulp.dest('./build/'));
 });
+gulp.task('templates', function(){
+  gulp.src('src/templates/*.hbs')
+    .pipe(handlebars())
+    .pipe(wrap('Handlebars.template(<%= contents %>)'))
+    .pipe(declare({
+      namespace: 'WebAudioToolkit.templates',
+      noRedeclare: true, // Avoid duplicate declarations
+    }))
+    .pipe(concat('templates.js'))
+    .pipe(gulp.dest('build/'));
+});
 gulp.task('build-src', function () {
   gulp
     .src([
       './src/components/interact/interact.js',
       './src/components/jsplumb/dist/js/dom.jsPlumb-1.7.2.js',
+      './src/components/handlebars/handlebars.runtime.js',
+      './build/templates.js',
       './src/*.js'      
     ])
     .pipe(concat('web-audio-toolkit.js'))
@@ -50,6 +66,8 @@ gulp.task('build-min', function () {
     .src([
       './src/components/interact/interact.min.js',
       './src/components/jsplumb/dist/js/dom.jsPlumb-1.7.2-min.js',
+      './src/components/handlebars/handlebars.runtime.min.js',
+      './build/templates.js',
       './build/build.min.js'      
     ])
     .pipe(concat('web-audio-toolkit.min.js'))
@@ -66,5 +84,5 @@ gulp.task('default',
 );
 // build task
 gulp.task('build',
-  ['minify-js','minify-css', 'build-src', 'build-min','copy-bower-components']
+  ['templates', 'minify-js','minify-css', 'build-src', 'build-min','copy-bower-components']
 );
