@@ -9,6 +9,7 @@
   window.WebAudioToolkit = WebAudioToolkit;
 
   function WebAudioToolkit(config) {
+    config = config || {};
 
     var 
       toolkit = {
@@ -17,7 +18,8 @@
         nodeSpaceDiv: null,
         audioContext: null,
         initialize: initialize,
-        addNodeSpaceDiv: addNodeSpaceDiv
+        addNodeSpaceDiv: addNodeSpaceDiv,
+        utils: webAudioToolkit.utils
       };
 
     toolkit.initialize(config);
@@ -26,13 +28,16 @@
 
 
     function initialize(opts) {
+
       if(!toolkit.initialized) {
         try{
+          toolkit.utils.setDebug(opts.debug || false);
           toolkit.audioContext = createAudioContext();
-          if(opts && opts.nodeSpaceDiv) {
+          if(opts.nodeSpaceDiv) {
             toolkit.addNodeSpaceDiv(opts.nodeSpaceDiv);
           }
           toolkit.initialized = true;
+          toolkit.utils.log('Web Audio Toolkit Initialized!');
         }
         catch(e){
           alert(e.name + "\n" + e.message);
@@ -61,7 +66,6 @@
           .resizable(true)
           .on('resizemove', function(event) {
             var target = event.target;
-            debugger
             // add the change in coords to the previous width of the target element
             var
               newWidth  = parseFloat(target.offsetWidth) + event.dx,
