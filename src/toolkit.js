@@ -3,7 +3,7 @@
 * Web Audio Toolkit - toolkit.js
 * ========
 */
-(function(window, interact, jsPlumb, Handlebars, webAudioToolkit) {
+(function(window, webAudioToolkit, utils, ToolkitNode, ToggleNode, interact, jsPlumb, Handlebars) {
   'use strict';
 
   window.WebAudioToolkit = WebAudioToolkit;
@@ -19,7 +19,8 @@
         audioContext: null,
         initialize: initialize,
         addNodeSpaceDiv: addNodeSpaceDiv,
-        utils: webAudioToolkit.utils
+        addInputNode: addInputNode,
+        nodeList: []
       };
 
     toolkit.initialize(config);
@@ -30,13 +31,13 @@
     function initialize(opts) {
       if(!toolkit.initialized) {
         try{
-          toolkit.utils.setDebug(opts.debug || false);
+          utils.setDebug(opts.debug || false);
           toolkit.audioContext = createAudioContext();
           if(opts.nodeSpaceDiv) {
             toolkit.addNodeSpaceDiv(opts.nodeSpaceDiv);
           }
           toolkit.initialized = true;
-          toolkit.utils.log('Web Audio Toolkit Initialized!');
+          utils.log('Web Audio Toolkit Initialized!');
         }
         catch(e){
           alert(e.name + "\n" + e.message);
@@ -64,31 +65,65 @@
         interact('#' + element)
           .resizable(true)
           .on('resizemove', function(event) {
-            var target = event.target;
-            // add the change in coords to the previous width of the target element
-            var
+            var 
+              target = event.target,
               newWidth  = parseFloat(target.offsetWidth) + event.dx,
               newHeight = parseFloat(target.offsetHeight) + event.dy;
 
-            // update the element's style
             target.setAttribute('style','width:' + newWidth + 'px; height: '+ newHeight + 'px');
-            //target.setAttribute('style','height:' + newHeight + 'px');
           });
+
+        toolkit.nodeSpace = nodeSpace;
         toolkit.nodeSpaceDiv = element;
         toolkit.nodeSpaceEnabled = true;
+        enableDragging();
       }
       catch(e){
         alert(e.name + "\n" + e.message);
       } 
     }
 
-    function addNodeMenu() {
+    function enableDragging() {
+      interact('.input-node')
+        .draggable({
+          inertia: true,
+          restrict: {
+            restriction: toolkit.nodeSpace,
+            endOnly: true,
+            elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+          },
 
+          // call this function on every dragmove event
+          onmove: function (event) {
+            var target = event.target,
+                // keep the dragged position in the data-x/data-y attributes
+                x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+                y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+            // translate the element
+            target.style.webkitTransform =
+            target.style.transform =
+              'translate(' + x + 'px, ' + y + 'px)';
+
+            // update the posiion attributes
+            target.setAttribute('data-x', x);
+            target.setAttribute('data-y', y);
+          },
+          // call this function on every dragend event
+          onend: function (event) {
+
+          }
+        });          
     }
 
-    function addNode() {
-      if(toolkit.nodeSpace) {
-
+    function addInputNode(type, id, label) {
+      var node;
+      if(type === 'toggle') {
+        node = new ToggleNode(label, id);
+        toolkit.nodeList.push(node);
+      }      
+      if(toolkit.nodeSpaceEnabled) {
+        node.render(toolkit.nodeSpace);
       }
       else {
 
@@ -97,4 +132,4 @@
 
   }
 
-})(window, interact, jsPlumb, Handlebars, webAudioToolkit);
+})(window, webAudioToolkit, webAudioToolkit.utils, webAudioToolkit.ToolkitNode, webAudioToolkit.ToggleNode, interact, jsPlumb, Handlebars);

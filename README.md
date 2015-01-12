@@ -1,6 +1,6 @@
 <h1>Web Audio API Toolkit</h1>
-<hr />
 <p>EARLY ALPHA - DOESN'T DO ANYTHING YET</p>
+<hr />
 <p>The Web Audio Toolkit is intended to be a set of tools to enhance developer action with the Web Audio API.  Planned features include: </p>
 <ul>
   <li>Drag and drop UI for interacting with Nodes</li>

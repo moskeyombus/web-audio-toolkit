@@ -7,13 +7,25 @@
   <body>
     <h1>Web Audio Toolkit Example</h1>
     <div id="node-space"></div>
+    <a id="insert-input-toggle-node" href="#">Insert Input - Toggle</a>
     <script src="../../dist/web-audio-toolkit.js"></script>
     <script>
     (function() {
-      var toolkit = new WebAudioToolkit({
+      var 
+        toolkit, insertToggleNodeBtn;
+      
+      toolkit = new WebAudioToolkit({
         nodeSpaceDiv: 'node-space',
         debug: true
       });
+
+      insertToggleNodeBtn = document.getElementById('insert-input-toggle-node');
+      insertToggleNodeBtn.onclick = function(event) {
+        event.preventDefault();
+        toolkit.addInputNode('toggle');
+        // Insert node
+      };
+
     })();
     </script>
   </body>

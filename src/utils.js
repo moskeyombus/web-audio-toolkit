@@ -1,12 +1,14 @@
-(function(window) {
+(function(window, webAudioToolkit) {
   'use strict';
 
   var
     debug = false,
-    utils = {
-      log: log,
-      setDebug: setDebug
-    };
+    utils;
+
+  utils = webAudioToolkit.utils = {};
+
+  utils.log = log;
+  utils.setDebug = setDebug;
 
   function log(msg) {
     if(debug) {
@@ -22,4 +24,4 @@
     window.webAudioToolkit.utils = utils;
   }
 
-})(window);
+})(window, webAudioToolkit);
